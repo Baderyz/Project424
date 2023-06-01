@@ -1,0 +1,21 @@
+{% extends 'PhoneStore/layout.html' %}
+
+{% block body%}
+<img src="https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-14-pro-max-1.jpg" alt="item picture" width="250px">
+        <form action="{% url 'PhoneStore:add' %}" method="post">
+             {% csrf_token %}
+            {{ form }}
+            <input type="submit">
+        </form>
+        <p>
+            ابل ايفون 14 برو ماكس
+            <br>
+            السعة : 128 جيجابايت
+            <br>
+            مقاس الشاشة : 6.7 بوصة
+            <br>
+            مميزات الكاميرا الخاصة : ثبات صورةبصري مزدوج 2X فاصل زمني للوضع الليلي ، تقريب بصري        
+        
+        </p>
+{% endblock %}
+    </html>
