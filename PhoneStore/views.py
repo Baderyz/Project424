@@ -8,7 +8,6 @@ from .models import Phone
 from PhoneStore.forms import SignUpForm
 
 
-
 def register(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
@@ -19,7 +18,7 @@ def register(request):
         form = SignUpForm()
 
     return render(request, 'PhoneStore/register.html', {'form': form})
-    
+
 
 def logina(request):
     if request.method == 'POST':
@@ -28,26 +27,22 @@ def logina(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('home') # replace 'home'with the name of your home page URL pattern
+            # replace 'home'with the name of your home page URL pattern
+            return redirect('home')
         else:
             # handle invalid login credentials
             pass
     else:
         return render(request, 'PhoneStore/login.html')
-    
-
 
 
 def phone(request, phone_id):
-    phone = Phone.objects.get(name = phone_id)
-    return render(request, 'PhoneStore/allProducts.html' ,  { 'phone': phone } )
-    
-
+    phone = Phone.objects.get(name=phone_id)
+    return render(request, 'PhoneStore/allProducts.html',  {'phone': phone})
 
 
 class NewItemForm(forms.Form):
     item = forms.IntegerField(label='Number of items')
-
 
 
 def index(request):
@@ -56,25 +51,44 @@ def index(request):
 
         request.session["PhoneStore"] = []
 
-    return render(request, "PhoneStore/index.html" , {"PhoneStore": request.session["PhoneStore"]})
+    return render(request, "PhoneStore/index.html", {"PhoneStore": request.session["PhoneStore"]})
+
 
 def add(request):
     if request.method == "POST":
-        form=NewItemForm(request.POST)
+        form = NewItemForm(request.POST)
 
         if form.is_valid():
 
-            item=form.cleaned_data["item"]
+            item = form.cleaned_data["item"]
 
-            request.session["PhoneStore"]+=[item]
+            request.session["PhoneStore"] += [item]
 
             return HttpResponseRedirect(reverse("PhoneStore:index"))
         else:
-            return render(request, "PhoneStore/specificProduct.html" , {})
+            return render(request, "PhoneStore/specificProduct.html", {})
 
-    return render(request, "PhoneStore/specificProduct.html" , {"form": NewItemForm()})
+    return render(request, "PhoneStore/specificProduct.html", {"form": NewItemForm()})
+
+# user add new product
 
 
+class uaddproductForm(forms.ModelForm):
+    class Meta:
+        model = Phone
+        # fields = ['name', 'manufacturer', 'price', 'description']
+        fields = "__all__"
 
 
+def viewaddform(request):
+    if request.method == 'POST':
+        form = uaddproductForm(request.POST)
+        if (form.is_valid()):
+            form.save()
 
+    else:
+        form = uaddproductForm()
+
+    return render(request, "PhoneStore/userAddP.html",
+                  {"form": uaddproductForm()})
+#
