@@ -1,19 +1,27 @@
-<!DOCTYPE html>
-<html>
-    {% extends 'layout.html' %}
+{% extends "PhoneStore/layout.html" %}
 
-    {% block content %}
-      <h1>Cell Phones</h1>
-      <ul>
-        {% for product in phones %}
-          <li>
-            <h2>{{ phone.name }}</h2>
-            <img src="{{ product.image.url }}" alt="{{ product.name }}">
-            <p>{{ product.description }}</p>
-            <p>Manufacturer: {{ product.manufacturer }}</p>
-            <p>Price: ${{ product.price }}</p>
-          </li>
-        {% endfor %}
-      </ul>
-    {% endblock %}
-</html>
+
+{% block body %}
+<h1>phones</h1>
+
+<style>
+  
+</style>
+<table>
+    <tr>
+        <th>name</th>
+        <th>manufacturer</th>
+        <th>price</th>
+        <th>description</th>
+        {% for p in phone %}
+        <tr>
+            <td>{{p.name}}</td>
+            <td>{{p.manufacturer}}</td>
+            <td>{{p.price}}</td>
+            <td>{{p.description}}</td>
+            {% endfor %}
+        </tr>
+    </tr>
+</table>
+
+{% endblock %}

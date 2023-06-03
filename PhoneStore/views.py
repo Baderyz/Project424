@@ -36,9 +36,10 @@ def logina(request):
         return render(request, 'PhoneStore/login.html')
 
 
-def phone(request, phone_id):
-    phone = Phone.objects.get(name=phone_id)
-    return render(request, 'PhoneStore/allProducts.html',  {'phone': phone})
+def phone(request):
+    return render(request, 'PhoneStore/allProducts.html', {
+        'phone': Phone.objects.all()
+    })
 
 
 class NewItemForm(forms.Form):
